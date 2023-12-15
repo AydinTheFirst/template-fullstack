@@ -18,4 +18,6 @@ app.use(passport.initialize());
 
 app.use(router);
 
-app.listen(3000, () => console.log(`http://localhost:${PORT}`));
+app.listen(3000, () => {
+  console.log(`http://localhost:${PORT}`);
+});

@@ -3,7 +3,7 @@ import passport from "passport";
 import { isLoggedIn } from "../helpers/passport.js";
 import { APIError } from "./helper.router.js";
 import { genToken } from "../helpers/utils.js";
-import { userModel, IUser } from "../helpers/schemas/user.js";
+import { userModel, type IUser } from "../helpers/schemas/user.js";
 import { v4 } from "uuid";
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.get("/@me", isLoggedIn, (req, res) => {
 router.post("/login", (req, res) => {
   passport.authenticate(
     "local",
-    async (err: any, user: any, message: string) => {
+    async (err: any, user: IUser | null, message: string) => {
       if (err) return APIError(res, err);
       if (!user) return APIError(res, message);
 
@@ -49,11 +49,11 @@ router.post("/register", async (req, res) => {
   // Kullanıcı adı veya e-posta adresi veritabanında mevcutsa kontrol et
   const userExist = await userModel.findOne({ $or: [{ username }, { email }] });
 
-  if (userExist) {
+  if (userExist != null) {
     return APIError(res, "This username/email is already taken!");
   }
 
-  //return res.send({ ok: true });
+  // return res.send({ ok: true });
 
   // Yeni kullanıcı verisini oluştur ve kaydet
   const newUser = await userModel.create({

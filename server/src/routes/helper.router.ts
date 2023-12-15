@@ -1,10 +1,10 @@
-import { Response } from "express";
+import { type Response } from "express";
 
-export const APIError = (res: Response, message: string) => {
+export const APIError = (res: Response, message: string): any => {
   return res.status(400).send({ message });
 };
 
-export const formatTime = (timeInMilliseconds: number) => {
+export const formatTime = (timeInMilliseconds: number): string => {
   const seconds = Math.floor(timeInMilliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
 

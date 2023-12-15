@@ -2,29 +2,33 @@ import passport from "passport";
 import { Strategy as Local } from "passport-local";
 import { Strategy as Bearer } from "passport-http-bearer";
 import { userModel } from "./schemas/user.js";
+import { type RequestHandler } from "express";
 
 passport.use(
-  new Local(async (username: string, password: string, done: Function) => {
+  new Local(async (username: string, password: string, done: any) => {
     const user = await userModel.findOne({ username }).lean();
-    const ok = user && user.password === password;
+    const ok = user != null && user.password === password;
 
-    if (!ok) {
-      return done(null, false, "Invalid username or password!");
+    if (!(ok ?? false)) {
+      done(null, false, "Invalid username or password!");
     }
 
     // Success
-    return done(null, user);
+    done(null, user);
   })
 );
 
 passport.use(
-  new Bearer(async (token: string, done: Function) => {
+  new Bearer(async (token: string, done: any) => {
     const user = await userModel.findOne({ token });
-    if (!user) {
+    if (user == null) {
       return done(null, false);
     }
     return done(null, user, { scope: "all" });
   })
 );
 
-export const isLoggedIn = passport.authenticate("bearer", { session: false });
+export const isLoggedIn: RequestHandler<unknown, any, any, unknown> =
+  passport.authenticate("bearer", {
+    session: false,
+  });

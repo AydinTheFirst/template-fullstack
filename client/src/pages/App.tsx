@@ -1,26 +1,20 @@
 import { Button } from "flowbite-react";
 import { Footer } from "../components/Footer";
 import { NavbarComponent } from "../components/Navbar";
-import { useEffect } from "react";
-import { toast } from "../utils/toast";
 
 export const App = () => {
-  useEffect(() => {
-    toast({
-      title: "Welcome to Fristroop",
-      message: "This is a toast component",
-    });
-  }, []);
   return (
     <>
       <NavbarComponent />
 
       <main className="container mt-10 p-3 dark:text-white">
         {/** BOX */}
-        <div className="box rounded-lg">
-          <span className="rounded-lg bg-slate-200 dark:bg-gray-900"></span>
-          <img src="/logo.png" width={"200px"} alt="" className="p-5" />
-        </div>
+        <img
+          src="/logo.png"
+          width={"200px"}
+          alt=""
+          className="p-5 flex mx-auto"
+        />
         <div className="text-center mt-10">
           <div className="colored font-bold text-3xl">
             Experience the Extraordinary

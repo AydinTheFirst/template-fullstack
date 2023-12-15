@@ -1,44 +1,83 @@
-import { Button, Navbar } from "flowbite-react";
-import { useEffect } from "react";
+import { Navbar } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { SideComponent } from "./Sidebar";
+
+import { FaHome, FaChartPie, FaGithub } from "react-icons/fa";
+
+import { AvatarBox } from "./Avatar";
 
 export const NavbarComponent = () => {
+  const [isOpen, setOpen] = useState<boolean>(false);
+
   useEffect(() => {
     const navbar = document.getElementById("navbar");
-    if (navbar) document.body.style.paddingTop = navbar.clientHeight + "px";
+    if (navbar) document.body.style.paddingTop = navbar.clientHeight + 1 + "px";
   }, []);
 
-  const logout = async () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-  };
-
   return (
-    <Navbar
-      id="navbar"
-      className="py-5 px-10 border-b fixed z-10 w-full top-0 left-0"
-    >
-      <Navbar.Brand href="/">
-        <img src="/logo.png" alt="logo" width={40} />
-        <span className="self-center whitespace-nowrap text-xl font-bold dark:text-white">
-          FRISTROOP
-        </span>
-      </Navbar.Brand>
+    <>
+      <Navbar
+        id="navbar"
+        className="py-5 px-10 border-b fixed z-8 w-full top-0 left-0"
+      >
+        <Navbar.Brand
+          href="/"
+          className="transition-all hover:-rotate-6 hover:scale-125"
+        >
+          <img src="/logo.png" alt="logo" width={40} />
+          <span className="self-center whitespace-nowrap text-xl font-bold dark:text-white">
+            FRISTROOP
+          </span>
+        </Navbar.Brand>
 
-      <div className="flex md:order-2 gap-1 ms-1">
-        <Button color="red" size={"xs"} onClick={logout}>
-          <i className="fa-solid fa-right-from-bracket md:me-2"></i>
-          <span className="hidden md:block">Logout</span>
-        </Button>
-        <Navbar.Toggle />
-      </div>
+        <div className="flex md:order-2 gap-1 ms-1">
+          <div className="hidden md:block">
+            <AvatarBox />
+          </div>
+          <Navbar.Toggle onClick={() => setOpen(!isOpen)} />
+        </div>
 
-      <Navbar.Collapse>
-        <Navbar.Link href="/">Home</Navbar.Link>
-        <Navbar.Link href="/dashboard">Dashboard</Navbar.Link>
-        <Navbar.Link href="https://github.com/AydinTheFirst">
-          Github
-        </Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
+        <Navbar.Collapse>
+          {pages.map((p) => {
+            return (
+              <Navbar.Link key={p.name} href={p.href}>
+                {p.name}
+              </Navbar.Link>
+            );
+          })}
+          <div className="border"></div>
+          {socials.map((p) => {
+            return (
+              <Navbar.Link key={p.name} href={p.href}>
+                {p.name}
+              </Navbar.Link>
+            );
+          })}
+        </Navbar.Collapse>
+      </Navbar>
+
+      <SideComponent isOpen={isOpen} />
+    </>
   );
 };
+
+export const pages = [
+  {
+    name: "Home",
+    href: "/",
+    icon: FaHome,
+  },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: FaChartPie,
+  },
+];
+
+export const socials = [
+  {
+    name: "Github",
+    href: "https://github.com/AydinTheFirst",
+    icon: FaGithub,
+  },
+];

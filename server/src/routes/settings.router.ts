@@ -2,7 +2,7 @@ import express from "express";
 import { APIError, formatTime } from "./helper.router.js";
 import { isLoggedIn } from "../helpers/passport.js";
 import { genToken } from "../helpers/utils.js";
-import { IUser, userModel } from "../helpers/schemas/user.js";
+import { type IUser, userModel } from "../helpers/schemas/user.js";
 import { mailer } from "../helpers/mailer.js";
 import crypto from "crypto";
 
@@ -44,11 +44,11 @@ router.post("/verify", isLoggedIn, async (req, res) => {
     );
   }
 
-  const verification_url =
+  const verificationUrl =
     req.headers.origin + `/verifyEmail?token=${user.verifyToken}&userId=${id}`;
 
   try {
-    await mailer.sendVerification(user, verification_url);
+    await mailer.sendVerification(user, verificationUrl);
   } catch (error) {
     return APIError(res, String(error));
   }
@@ -68,7 +68,7 @@ router.post("/resetPassword", async (req, res) => {
   const cooldownDuration = 5 * 60 * 1000;
   const now = Date.now();
 
-  let rpsw = user.rpsw;
+  const rpsw = user.rpsw;
 
   const lastRequest = now - Number(rpsw.createdAt);
   const remained = cooldownDuration - lastRequest;
