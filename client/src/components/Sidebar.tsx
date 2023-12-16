@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
-import { pages, socials } from "./Navbar";
 import { AvatarBox } from "./Avatar";
+import { pages, socials } from "../utils/Contants";
 
 export const SideComponent = (props: { isOpen?: boolean }) => {
   const { isOpen } = props;

@@ -2,9 +2,8 @@ import express from "express";
 import passport from "passport";
 import { isLoggedIn } from "../helpers/passport.js";
 import { APIError } from "./helper.router.js";
-import { genToken } from "../helpers/utils.js";
+import { genToken, uuid } from "../helpers/utils.js";
 import { userModel, type IUser } from "../helpers/schemas/user.js";
-import { v4 } from "uuid";
 
 const router = express.Router();
 
@@ -43,13 +42,13 @@ router.post("/login", (req, res) => {
 
 // Yeni kullanıcı kaydı
 router.post("/register", async (req, res) => {
-  let { username, email, password, displayName } = req.body;
-  username = username.toLowerCase();
+  const { email, password, displayName } = req.body;
+  const username = req.body.username.toLowerCase();
 
   // Kullanıcı adı veya e-posta adresi veritabanında mevcutsa kontrol et
   const userExist = await userModel.findOne({ $or: [{ username }, { email }] });
 
-  if (userExist != null) {
+  if (userExist) {
     return APIError(res, "This username/email is already taken!");
   }
 
@@ -57,7 +56,7 @@ router.post("/register", async (req, res) => {
 
   // Yeni kullanıcı verisini oluştur ve kaydet
   const newUser = await userModel.create({
-    id: v4(),
+    id: uuid(),
     createdAt: new Date(),
     displayName,
     username,

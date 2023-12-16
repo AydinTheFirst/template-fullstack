@@ -2,9 +2,8 @@ import { Navbar } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { SideComponent } from "./Sidebar";
 
-import { FaHome, FaChartPie, FaGithub } from "react-icons/fa";
-
 import { AvatarBox } from "./Avatar";
+import { pages, socials } from "../utils/Contants";
 
 export const NavbarComponent = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -60,24 +59,3 @@ export const NavbarComponent = () => {
     </>
   );
 };
-
-export const pages = [
-  {
-    name: "Home",
-    href: "/",
-    icon: FaHome,
-  },
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: FaChartPie,
-  },
-];
-
-export const socials = [
-  {
-    name: "Github",
-    href: "https://github.com/AydinTheFirst",
-    icon: FaGithub,
-  },
-];

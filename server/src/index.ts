@@ -1,9 +1,9 @@
 import "dotenv/config";
-import "./helpers/mongodb.js";
+import "./helpers/mongodb";
 // Run server
 import "./server";
 
 // Handle errors
-process.on("unhandledRejection", (reason, promise) => {
+process.on("unhandledRejection", (reason) => {
   console.log(reason);
 });

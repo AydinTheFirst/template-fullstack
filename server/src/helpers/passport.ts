@@ -9,7 +9,7 @@ passport.use(
     const user = await userModel.findOne({ username }).lean();
     const ok = user != null && user.password === password;
 
-    if (!(ok ?? false)) {
+    if (!ok) {
       done(null, false, "Invalid username or password!");
     }
 
