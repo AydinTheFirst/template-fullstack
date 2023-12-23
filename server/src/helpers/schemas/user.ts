@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export interface IUser extends Document {
+interface ISchema {
   id: string;
   email: string;
   username: string;
@@ -20,28 +20,27 @@ export interface IUser extends Document {
   };
 }
 
-const UserSchema = new Schema<IUser>({
-  id: { type: String, unique: true },
-  email: { type: String, unique: true },
-  username: { type: String, unique: true },
-  password: { type: String },
-  displayName: { type: String },
-  avatar: { type: String },
-  rpsw: { code: Number, createdAt: String },
-  verified: { type: Boolean, default: false },
-  verifyToken: { type: String },
-  token: { type: String },
-  accessToken: { type: String },
-  authorizedClients: { type: [] },
-  createdAt: { type: String },
-  lastLogin: {
-    ip: { type: String, default: "" },
-    date: { type: String, default: "" },
-  },
-});
+const model = mongoose.model<ISchema>(
+  "user",
+  new Schema({
+    id: { type: String, unique: true },
+    email: { type: String, unique: true },
+    username: { type: String, unique: true },
+    password: { type: String },
+    displayName: { type: String },
+    avatar: { type: String },
+    rpsw: { code: Number, createdAt: String },
+    verified: { type: Boolean, default: false },
+    verifyToken: { type: String },
+    token: { type: String },
+    accessToken: { type: String },
+    createdAt: { type: String },
+    lastLogin: {
+      ip: { type: String, default: "" },
+      date: { type: String, default: "" },
+    },
+  })
+);
 
-export const userModel = mongoose.model<IUser>("user", UserSchema);
-
-
-
-
+export const userModel = model;
+export type IUser = ISchema;

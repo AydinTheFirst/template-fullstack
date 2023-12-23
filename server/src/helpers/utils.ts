@@ -1,19 +1,5 @@
-import { IUser, userModel } from "./schemas/user.js";
+import { type Response } from "express";
 
-export const genToken = async (): Promise<string> => {
-  let token = "";
-
-  const generate = (): any => {
-    token = uuid();
-  };
-
-  const users = await userModel.find().lean();
-
-  do {
-    generate();
-  } while (users.find((u: IUser) => u.token === token) != null);
-
-  return token;
+export const APIError = (res: Response, message: string): any => {
+  return res.status(400).send({ message });
 };
-
-export const uuid = (): string => crypto.randomUUID();
