@@ -1,8 +1,7 @@
 import express from "express";
 import passport from "passport";
 import { isLoggedIn } from "../helpers/passport.js";
-import { APIError } from "./helper.router.js";
-import { genToken, uuid } from "../helpers/utils.js";
+import { APIError, genToken, uuid } from "../helpers/utils.js";
 import { userModel, type IUser } from "../helpers/schemas/user.js";
 
 const router = express.Router();

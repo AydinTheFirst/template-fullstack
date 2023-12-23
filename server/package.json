@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "start": "yarn .",
-    "build": "rimraf dist && tsc",
+    "start": "tsx src/index.ts",
+    "build": "echo \"Error: no build specified\"",
     "dev": "tsx watch src/index.ts",
     "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
     "test": "echo \"Error: no test specified\" && exit 1"
