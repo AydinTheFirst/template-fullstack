@@ -11,7 +11,7 @@ import { HiMail, HiUser, HiLockClosed, HiIdentification } from "react-icons/hi";
 
 import { useEffect, useState } from "react";
 import { rest } from "../utils/REST";
-import { toast } from "../utils/toast";
+import { Alert } from "../utils/Alert";
 
 export const Login = () => {
   const [isLogin, setLogin] = useState(false);
@@ -156,8 +156,9 @@ const Register = () => {
     rest.setToken(token);
     localStorage.setItem("token", token);
 
-    toast({
-      message: "Succeed! You will be redirected to login page in 5 seconds.",
+    Alert({
+      description:
+        "Succeed! You will be redirected to login page in 5 seconds.",
     });
 
     setTimeout(() => {

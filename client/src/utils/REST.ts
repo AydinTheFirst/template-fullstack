@@ -1,8 +1,8 @@
 import axios from "axios";
 
 import { Routes } from "./Routes";
-import { toast } from "./toast";
 import { API } from "../config";
+import { Alert } from "./Alert";
 
 /**
  * REST module is developed in order to make easier to work with REST API's.
@@ -110,9 +110,9 @@ export class REST {
     }
 
     console.log(res);
-    return toast({
+    return Alert({
       title: res.errorMessage,
-      message: res.error.message || String(res.error),
+      description: res.error.message || String(res.error),
     });
   }
 }

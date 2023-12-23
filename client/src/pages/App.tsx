@@ -1,8 +1,13 @@
 import { Button } from "flowbite-react";
 import { Footer } from "../components/Footer";
 import { NavbarComponent } from "../components/Navbar";
+import { useEffect } from "react";
+import { socket } from "../utils/socket";
 
 export const App = () => {
+  useEffect(() => {
+    socket("id").emit("join", { room: "main" });
+  }, []);
   return (
     <>
       <NavbarComponent />

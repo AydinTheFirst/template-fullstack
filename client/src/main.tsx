@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./styles/index.css";
 import { Theme } from "./components/Theme";
-import { ToastBox } from "./components/Toast";
+import { AlertBox } from "./components/Alert";
 
 import { App } from "./pages/App";
 
@@ -15,7 +15,7 @@ document.body.classList.add("bg-slate-200", "dark:bg-gray-900");
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <>
     <Theme />
-    <ToastBox />
+    <AlertBox />
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
