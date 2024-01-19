@@ -1,11 +1,8 @@
 import "dotenv/config";
-import "./helpers/mongodb";
+import "./mongodb/mongo";
 
 // Run server
 import "./server";
-
-// Run websocket
-import "./websocket";
 
 // Handle errors
 process.on("unhandledRejection", (reason) => {

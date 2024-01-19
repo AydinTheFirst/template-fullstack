@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import { isLoggedIn } from "../helpers/passport.js";
 import { APIError, genToken, uuid } from "../helpers/utils.js";
-import { userModel, type IUser } from "../helpers/schemas/user.js";
+import { userModel, type IUser } from "../mongodb/userSchema.js";
 
 const router = express.Router();
 
@@ -25,11 +25,6 @@ router.post("/login", (req, res) => {
       const model = await userModel.findOne({ id: user.id });
       if (!model) return APIError(res, "User is not found!");
 
-      const ip = req.headers["x-forwarded-for"];
-
-      // Modify User
-      model.lastLogin.ip = String(ip);
-      model.lastLogin.date = Date.now().toString();
       model.token = await genToken(); // This refreshes token for each login!
       // Update User
       await model.save();
