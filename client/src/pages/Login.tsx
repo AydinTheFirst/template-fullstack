@@ -11,7 +11,7 @@ import { HiMail, HiUser, HiLockClosed, HiIdentification } from "react-icons/hi";
 
 import { useEffect, useState } from "react";
 import { rest } from "../utils/REST";
-import { Alert } from "../utils/Alert";
+import { toast } from "../utils/toast";
 
 export const Login = () => {
   const [isLogin, setLogin] = useState(false);
@@ -60,28 +60,19 @@ const Base = () => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await rest.get(rest.routes.Auth.Me, {});
-      if (res.ok) return location.replace("/");
-    };
-    if (localStorage.getItem("token")) fetch();
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     const data = new FormData(e.target as HTMLFormElement);
-    const res = await rest.post(rest.routes.Auth.Login, data);
-
-    if (!res.ok) {
+    try {
+      const res = await rest.post(rest.routes.Auth.Login, data);
+      rest.setToken(res.data.token);
+      localStorage.setItem("token", res.data.token);
+      location.replace(redirectTo || "/");
+    } catch (error) {
       setLoading(false);
-      return rest.error(res);
+      return rest.error(error);
     }
-
-    rest.setToken(res.data.token);
-    localStorage.setItem("token", res.data.token);
-    location.replace(redirectTo || "/");
   };
 
   return (
@@ -144,27 +135,26 @@ const Register = () => {
 
     const data = new FormData(e.target as HTMLFormElement);
 
-    const res = await rest.post(rest.routes.Auth.Register, data);
-    console.log(res);
+    try {
+      const res = await rest.post(rest.routes.Auth.Register, data);
 
-    if (!res.ok) {
+      const token = res.data.token;
+      rest.setToken(token);
+      localStorage.setItem("token", token);
+
+      toast({
+        description:
+          "Succeed! You will be redirected to login page in 5 seconds.",
+      });
+
+      setTimeout(() => {
+        location.replace(redirectTo || "/");
+        setLoading(false);
+      }, 5000);
+    } catch (error) {
       setLoading(false);
-      return rest.error(res);
+      return rest.error(error);
     }
-
-    const token = res.data.token;
-    rest.setToken(token);
-    localStorage.setItem("token", token);
-
-    Alert({
-      description:
-        "Succeed! You will be redirected to login page in 5 seconds.",
-    });
-
-    setTimeout(() => {
-      location.replace(redirectTo || "/");
-      setLoading(false);
-    }, 5000);
   };
 
   return (

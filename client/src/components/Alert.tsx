@@ -1,6 +1,6 @@
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
-import { removeAlert } from "../utils/Alert";
+import { removeAlert } from "../utils/toast";
 
 export const AlertBox = () => {
   return (

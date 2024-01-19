@@ -1,8 +1,8 @@
 import axios from "axios";
 
-import { Routes } from "./Routes";
 import { API } from "../config";
-import { Alert } from "./Alert";
+import { toast } from "./toast";
+import { Routes } from "./Routes";
 
 /**
  * REST module is developed in order to make easier to work with REST API's.
@@ -12,20 +12,10 @@ import { Alert } from "./Alert";
 export class REST {
   baseURL: string;
   token: string;
-  methods: IRequestMethods;
   routes: typeof Routes;
   constructor(restConf: IRestConfig) {
     this.baseURL = restConf.baseURL;
-
     this.token = restConf.token;
-
-    this.methods = {
-      Get: "get",
-      Delete: "delete",
-      Put: "put",
-      Post: "post",
-    };
-
     this.routes = Routes;
   }
 
@@ -33,7 +23,8 @@ export class REST {
     url: string,
     data: object,
     method: string
-  ): Promise<IRestResponse> => {
+  ): Promise<any> => {
+    // make request
     try {
       const res = await axios({
         baseURL: this.baseURL,
@@ -44,47 +35,38 @@ export class REST {
         method,
         data,
       });
-      console.log(res);
 
-      return {
-        ok: res.status >= 200 && res.status < 300,
-        status: res.status,
-        data: res.data,
-      };
+      return res.data;
     } catch (error: any) {
-      if (!error.response) {
-        return {
-          ok: false,
-          errorMessage: "Conection Errror",
-          status: -1,
-          error: `Could not connect to: ${this.baseURL}`,
-        };
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
       }
 
-      return {
-        ok: false,
-        status: error.response.status,
-        error: error.response.data,
-      };
+      throw new Error(error);
     }
   };
 
   async get(path: string, body: object | null) {
     path = path + "?" + this._bodyToQueryParams(body);
     body = {};
-    return this.makeRequest(path, body, this.methods.Get);
+    return this.makeRequest(path, body, "GET");
   }
 
   async delete(path: string, body: object) {
-    return this.makeRequest(path, body, this.methods.Delete);
+    return this.makeRequest(path, body, "DELETE");
   }
 
   async post(path: string, body: object) {
-    return this.makeRequest(path, body, this.methods.Post);
+    return this.makeRequest(path, body, "POST");
   }
 
   async put(path: string, body: object) {
-    return this.makeRequest(path, body, this.methods.Put);
+    return this.makeRequest(path, body, "PUT");
+  }
+
+  async patch(path: string, body: object) {
+    return this.makeRequest(path, body, "PATCH");
   }
 
   setToken(token: string) {
@@ -103,16 +85,17 @@ export class REST {
     return params.toString();
   }
 
-  error(res: any) {
-    if (res.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+  error(error: any) {
+    let errorMessage = "Something went wrong";
+
+    if (error.response && error.response.data.message) {
+      errorMessage = error.response.data.message;
     }
 
-    console.log(res);
-    return Alert({
-      title: res.errorMessage,
-      description: res.error.message || String(res.error),
+    console.log(error);
+    return toast({
+      description: errorMessage,
+      type: "failure",
     });
   }
 }
@@ -126,19 +109,4 @@ export const rest = new REST({
 export interface IRestConfig {
   baseURL: string;
   token: string;
-}
-
-export interface IRestResponse {
-  ok: boolean;
-  status: number;
-  data?: any;
-  errorMessage?: string;
-  error?: any;
-}
-
-export interface IRequestMethods {
-  Get: string;
-  Delete: string;
-  Put: string;
-  Post: string;
 }

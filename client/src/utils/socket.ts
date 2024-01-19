@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import { API } from "../config";
-import { Alert } from "./Alert";
+import { toast } from "./toast";
 
 export const socket = (token: string) => {
   const socket = io(API, {
@@ -10,8 +10,7 @@ export const socket = (token: string) => {
   });
 
   socket.on("error", (error: string) => {
-    Alert({
-      title: "Websocket error",
+    toast({
       description: error,
     });
   });
