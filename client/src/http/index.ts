@@ -1,6 +1,6 @@
 import { REST } from "./http";
 
-export const API = import.meta.env.PROD ? "" : "http://localhost:3000/api";
+export const API = import.meta.env.PROD ? "/api" : "http://localhost:3000/api";
 console.log(API);
 
 export const http = new REST({
