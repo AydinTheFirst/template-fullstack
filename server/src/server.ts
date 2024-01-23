@@ -16,6 +16,10 @@ app.use(upload.any());
 
 app.use(passport.initialize());
 
+// Static Files
+app.use(express.static("../client/dist"));
+app.use("/cdn", express.static("public"));
+
 app.use(router);
 
 app.listen(3000, () => {

@@ -1,12 +1,13 @@
 import multer from "multer";
-import * as fs from "fs";
 import crypto from "crypto";
+import fs from "fs";
 
-const dir = fs.existsSync("uploads");
-if (!dir) fs.mkdirSync("uploads");
+const dirName = "public/uploads";
+const dir = fs.existsSync(dirName);
+if (!dir) fs.mkdirSync(dirName);
 
 const storage = multer.diskStorage({
-  destination: "uploads",
+  destination: dirName,
   filename: (req: any, file: any, cb: any) => {
     cb(null, crypto.randomUUID() + "." + file.mimetype.split("/")[1]);
   },

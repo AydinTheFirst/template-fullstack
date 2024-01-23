@@ -1,13 +1,11 @@
 import express from "express";
-
-// Routers
-import { AuthRouter } from "./auth.router.js";
+import { ApiRouter } from "./api";
 
 const app = express.Router();
 export const router = app;
 
-router.use("/auth", AuthRouter);
+router.use("/api", ApiRouter);
 
-router.get("/", (req, res) => {
-  res.send({ message: "API is working!" });
+router.get("*", (req, res) => {
+  res.sendFile("index.html", { root: "../client/dist" });
 });

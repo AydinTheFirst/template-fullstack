@@ -10,8 +10,8 @@ import {
 import { HiMail, HiUser, HiLockClosed, HiIdentification } from "react-icons/hi";
 
 import { useEffect, useState } from "react";
-import { rest } from "../utils/REST";
-import { toast } from "../utils/toast";
+import { Routes, http } from "@/http";
+import { toast } from "@/components/Toast";
 
 export const Login = () => {
   const [isLogin, setLogin] = useState(false);
@@ -65,13 +65,13 @@ const Base = () => {
     setLoading(true);
     const data = new FormData(e.target as HTMLFormElement);
     try {
-      const res = await rest.post(rest.routes.Auth.Login, data);
-      rest.setToken(res.data.token);
+      const res = await http.post(Routes.Auth.Login, data);
+      http.setToken(res.data.token);
       localStorage.setItem("token", res.data.token);
       location.replace(redirectTo || "/");
     } catch (error) {
       setLoading(false);
-      return rest.error(error);
+      return http.error(error);
     }
   };
 
@@ -136,10 +136,10 @@ const Register = () => {
     const data = new FormData(e.target as HTMLFormElement);
 
     try {
-      const res = await rest.post(rest.routes.Auth.Register, data);
+      const res = await http.post(Routes.Auth.Register, data);
 
       const token = res.data.token;
-      rest.setToken(token);
+      http.setToken(token);
       localStorage.setItem("token", token);
 
       toast({
@@ -153,7 +153,7 @@ const Register = () => {
       }, 5000);
     } catch (error) {
       setLoading(false);
-      return rest.error(error);
+      return http.error(error);
     }
   };
 

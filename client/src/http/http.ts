@@ -1,9 +1,5 @@
 import axios from "axios";
 
-import { API } from "../config";
-import { toast } from "./toast";
-import { Routes } from "./Routes";
-
 /**
  * REST module is developed in order to make easier to work with REST API's.
  * This module uses axios for making requests.
@@ -12,11 +8,9 @@ import { Routes } from "./Routes";
 export class REST {
   baseURL: string;
   token: string;
-  routes: typeof Routes;
   constructor(restConf: IRestConfig) {
     this.baseURL = restConf.baseURL;
     this.token = restConf.token;
-    this.routes = Routes;
   }
 
   makeRequest = async (
@@ -43,29 +37,30 @@ export class REST {
         window.location.href = "/login";
       }
 
-      throw new Error(error);
+      this.error(error);
+      throw new Error("Something went wrong!");
     }
   };
 
-  async get(path: string, body: object | null) {
+  async get(path: string, body: any) {
     path = path + "?" + this._bodyToQueryParams(body);
     body = {};
     return this.makeRequest(path, body, "GET");
   }
 
-  async delete(path: string, body: object) {
+  async delete(path: string, body: any) {
     return this.makeRequest(path, body, "DELETE");
   }
 
-  async post(path: string, body: object) {
+  async post(path: string, body: any) {
     return this.makeRequest(path, body, "POST");
   }
 
-  async put(path: string, body: object) {
+  async put(path: string, body: any) {
     return this.makeRequest(path, body, "PUT");
   }
 
-  async patch(path: string, body: object) {
+  async patch(path: string, body: any) {
     return this.makeRequest(path, body, "PATCH");
   }
 
@@ -92,19 +87,10 @@ export class REST {
       errorMessage = error.response.data.message;
     }
 
-    console.log(error);
-    return toast({
-      description: errorMessage,
-      type: "failure",
-    });
+    console.error(errorMessage);
+    alert(errorMessage);
   }
 }
-
-// Export
-export const rest = new REST({
-  baseURL: API,
-  token: localStorage.getItem("token") || "Bearer token",
-});
 
 export interface IRestConfig {
   baseURL: string;

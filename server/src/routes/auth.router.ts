@@ -1,8 +1,8 @@
+import { isLoggedIn } from "@/helpers/passport";
+import { APIError, genToken, uuid } from "@/helpers/utils";
+import { IUser, userModel } from "@/mongodb/userSchema";
 import express from "express";
 import passport from "passport";
-import { isLoggedIn } from "../helpers/passport.js";
-import { APIError, genToken, uuid } from "../helpers/utils.js";
-import { userModel, type IUser } from "../mongodb/userSchema.js";
 
 const router = express.Router();
 

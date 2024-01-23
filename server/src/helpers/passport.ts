@@ -2,7 +2,7 @@ import passport from "passport";
 import { Strategy as Local } from "passport-local";
 import { Strategy as Bearer } from "passport-http-bearer";
 import { type RequestHandler } from "express";
-import { userModel } from "../mongodb/userSchema.js";
+import { userModel } from "@/mongodb/userSchema.js";
 
 passport.use(
   new Local(async (username: string, password: string, done: any) => {

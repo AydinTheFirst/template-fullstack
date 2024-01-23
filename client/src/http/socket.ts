@@ -1,6 +1,6 @@
 import io from "socket.io-client";
-import { API } from "../config";
-import { toast } from "./toast";
+import { API } from ".";
+import { toast } from "@/components/Toast";
 
 export const socket = (token: string) => {
   const socket = io(API, {

@@ -1,8 +1,8 @@
 import "dotenv/config";
-import "./mongodb/mongo";
+import "@/mongodb";
 
 // Run server
-import "./server";
+import "@/server";
 
 // Handle errors
 process.on("unhandledRejection", (reason) => {

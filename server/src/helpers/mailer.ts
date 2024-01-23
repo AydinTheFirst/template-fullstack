@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { IUser } from "./schemas/user.js";
+import { IUser } from "@/mongodb/userSchema";
 
 const transporter = nodemailer.createTransport({
   pool: true,
