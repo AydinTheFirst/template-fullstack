@@ -4,11 +4,11 @@ export const ToastBox = () => {
   return (
     <Toast
       id="toast"
-      className="fixed bottom-0 end-0 z-50 m-3 invisible dark:bg-slate-700"
+      className="invisible fixed bottom-0 end-0 z-50 m-3 dark:bg-slate-700"
     >
       <div
         id="toast-body"
-        className="ml-3 text-sm font-normal overflow-auto pb-1"
+        className="ml-3 overflow-auto pb-1 text-sm font-normal"
       ></div>
       <Toast.Toggle className="dark:bg-slate-700" />
     </Toast>

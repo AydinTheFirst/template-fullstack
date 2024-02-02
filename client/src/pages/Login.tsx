@@ -21,17 +21,17 @@ export const Login = () => {
   return (
     <div
       style={{ height: "100vh" }}
-      className="flex justify-center items-center p-10 my-10"
+      className="my-10 flex items-center justify-center p-10"
     >
       <div
         style={{ width: "300px" }}
-        className="shadow bg-slate-50 dark:bg-slate-700 rounded w-auto p-5"
+        className="w-auto rounded bg-slate-50 p-5 shadow dark:bg-slate-700"
       >
         <div className="flex justify-center">
           <img src="/logo.png" width={100} alt="" />
         </div>
         <div className="text-center">
-          <span className="dark:text-white text-xl font-bold">
+          <span className="text-xl font-bold dark:text-white">
             Fristroop Development
           </span>
           <hr className="m-3" />
@@ -104,7 +104,7 @@ const Base = () => {
             required
           />
         </div>
-        <div className="flex justify-end items-center gap-1">
+        <div className="flex items-center justify-end gap-1">
           <Checkbox id="show1" onChange={() => setShow(!show)} />
           <Label htmlFor="show1">Show Password</Label>
         </div>
@@ -215,7 +215,7 @@ const Register = () => {
             required
           />
         </div>
-        <div className="flex justify-end items-center gap-1">
+        <div className="flex items-center justify-end gap-1">
           <Checkbox id="show1" onChange={() => setShow(!show)} />
           <Label htmlFor="show1">Show Password</Label>
         </div>

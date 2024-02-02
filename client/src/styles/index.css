@@ -22,3 +22,8 @@ label {
   -webkit-background-clip: text;
   color: transparent;
 }
+
+main .container {
+  @apply hover:text-white;
+  background-image:;
+}

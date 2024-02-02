@@ -15,7 +15,7 @@ export const SideComponent = (props: { isOpen?: boolean }) => {
 
   return (
     <div>
-      <Sidebar className="fixed top-0 right-0" style={style}>
+      <Sidebar className="fixed right-0 top-0" style={style}>
         <Sidebar.Items className="relative h-full">
           <Sidebar.ItemGroup>
             {pages.map((p) => {
@@ -36,7 +36,7 @@ export const SideComponent = (props: { isOpen?: boolean }) => {
             })}
           </Sidebar.ItemGroup>
 
-          <Sidebar.ItemGroup className="absolute w-full bottom-0">
+          <Sidebar.ItemGroup className="absolute bottom-0 w-full">
             <AvatarBox />
           </Sidebar.ItemGroup>
         </Sidebar.Items>
